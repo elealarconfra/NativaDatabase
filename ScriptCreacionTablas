@@ -1,0 +1,462 @@
+USE [master]
+GO
+/****** Object:  Database [NativaProduce]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+CREATE DATABASE [NativaProduce]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'NativaProduce', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\NativaProduce.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'NativaProduce_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\NativaProduce_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [NativaProduce] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [NativaProduce].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [NativaProduce] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [NativaProduce] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [NativaProduce] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [NativaProduce] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [NativaProduce] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [NativaProduce] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [NativaProduce] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [NativaProduce] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [NativaProduce] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [NativaProduce] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [NativaProduce] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [NativaProduce] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [NativaProduce] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [NativaProduce] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [NativaProduce] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [NativaProduce] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [NativaProduce] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [NativaProduce] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [NativaProduce] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [NativaProduce] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [NativaProduce] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [NativaProduce] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [NativaProduce] SET RECOVERY FULL 
+GO
+ALTER DATABASE [NativaProduce] SET  MULTI_USER 
+GO
+ALTER DATABASE [NativaProduce] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [NativaProduce] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [NativaProduce] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [NativaProduce] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [NativaProduce] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [NativaProduce] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'NativaProduce', N'ON'
+GO
+ALTER DATABASE [NativaProduce] SET QUERY_STORE = OFF
+GO
+USE [NativaProduce]
+GO
+/****** Object:  Table [dbo].[Clasificacion]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Clasificacion](
+	[Id] [int] NOT NULL,
+	[IdProveedor] [int] NOT NULL,
+	[IdEntrada] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[IdReporte] [int] NOT NULL,
+	[FechaClasificacion] [datetime] NOT NULL,
+	[CajaExportacion] [int] NOT NULL,
+	[KgExportacion] [int] NOT NULL,
+	[CajaNacional] [int] NOT NULL,
+	[KgNacional] [int] NOT NULL,
+	[CajaDesecho] [int] NOT NULL,
+	[KgDesecho] [int] NOT NULL,
+	[KgMerma] [int] NOT NULL,
+	[CajaDevolucion] [int] NULL,
+	[KgDevolucion] [int] NULL,
+	[TotalCaja] [int] NOT NULL,
+	[TotalKg] [int] NOT NULL,
+	[Diferencia] [int] NOT NULL,
+ CONSTRAINT [PK_Clasificacion] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DetalleEntrada]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DetalleEntrada](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[NumeroCaja] [int] NOT NULL,
+	[KgEntrada] [int] NOT NULL,
+ CONSTRAINT [PK_DetalleEntrada] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DetalleOrden]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DetalleOrden](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[NumeroOrden] [int] NOT NULL,
+	[NumeroCaja] [int] NOT NULL,
+	[Kgsolicitados] [int] NOT NULL,
+ CONSTRAINT [PK_DetalleOrden] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Entrada]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Entrada](
+	[Id] [int] NOT NULL,
+	[IdTipoOrden] [int] NOT NULL,
+	[IdTipoEntrada] [int] NOT NULL,
+	[IdDetalleEntrada] [int] NOT NULL,
+	[IdProveedor] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[NumeroEntrada] [int] NOT NULL,
+	[FechaEntrada] [datetime] NOT NULL,
+ CONSTRAINT [PK_Entrada] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Extension]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Extension](
+	[Id] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdIca] [int] NOT NULL,
+	[NombreExtension] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_Extension] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Negociacion]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Negociacion](
+	[Id] [int] NOT NULL,
+	[IdTipoNegociacion] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdProveedor] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[PrecioExportacion] [money] NOT NULL,
+	[PrecioNacional] [money] NULL,
+	[FechaNegociacion] [datetime] NOT NULL,
+	[FechaInicioVigencia] [datetime] NOT NULL,
+	[FechaFinVigencia] [datetime] NOT NULL,
+ CONSTRAINT [PK_Negociacion] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Orden]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Orden](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[NumeroOrden] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[IdDetalleOrden] [int] NOT NULL,
+	[IdTipoOrden] [int] NOT NULL,
+	[IdProveedor] [int] NOT NULL,
+	[IdNegociacion] [int] NOT NULL,
+	[FechaGeneracion] [datetime] NOT NULL,
+ CONSTRAINT [PK_Orden] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Predio]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Predio](
+	[IdICA] [int] NOT NULL,
+	[Nombrepredio] [nchar](10) NULL,
+ CONSTRAINT [PK_Predio] PRIMARY KEY CLUSTERED 
+(
+	[IdICA] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Producto]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Producto](
+	[Id] [int] NOT NULL,
+	[IdICA] [int] NULL,
+	[IdTipoNegociacion] [int] NULL,
+	[NombreProducto] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Producto] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Proveedor]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Proveedor](
+	[Id] [int] NOT NULL,
+	[IdTipoOrden] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[NombreProveedor] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_Proveedor] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Reporte]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reporte](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[IdTipoNegociacion] [int] NOT NULL,
+	[IdTipoReporte] [int] NOT NULL,
+	[FechaReporte] [datetime] NOT NULL,
+ CONSTRAINT [PK_Reporte] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TipoEntrada]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TipoEntrada](
+	[Id] [int] NOT NULL,
+	[Descripcion] [int] NULL,
+ CONSTRAINT [PK_TipoEntrada] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TipoNegociacion]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TipoNegociacion](
+	[Id] [int] NOT NULL,
+	[DescripcionTipoNegociacion] [int] NOT NULL,
+ CONSTRAINT [PK_TipoNegociacion] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TipoOrden]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TipoOrden](
+	[Id] [int] NOT NULL,
+	[Descripcion] [int] NOT NULL,
+ CONSTRAINT [PK_TipoOrden] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TipoReporte]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TipoReporte](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[NombreTipoReporte] [nchar](10) NOT NULL,
+ CONSTRAINT [PK_TipoReporte] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TrazabilidadProducto]    Script Date: 17/04/2021 5:38:36 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TrazabilidadProducto](
+	[Id] [int] NOT NULL,
+	[IdProveedor] [int] NOT NULL,
+	[IdExtension] [int] NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[Fecha] [datetime] NOT NULL,
+	[NombreExtension] [nvarchar](100) NOT NULL,
+ CONSTRAINT [PK_TrazabilidadProducto] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Entrada]  WITH CHECK ADD  CONSTRAINT [FK_Entrada_DetalleEntrada] FOREIGN KEY([IdDetalleEntrada])
+REFERENCES [dbo].[DetalleEntrada] ([Id])
+GO
+ALTER TABLE [dbo].[Entrada] CHECK CONSTRAINT [FK_Entrada_DetalleEntrada]
+GO
+ALTER TABLE [dbo].[Entrada]  WITH CHECK ADD  CONSTRAINT [FK_Entrada_Extension] FOREIGN KEY([IdExtension])
+REFERENCES [dbo].[Extension] ([Id])
+GO
+ALTER TABLE [dbo].[Entrada] CHECK CONSTRAINT [FK_Entrada_Extension]
+GO
+ALTER TABLE [dbo].[Entrada]  WITH CHECK ADD  CONSTRAINT [FK_Entrada_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([Id])
+GO
+ALTER TABLE [dbo].[Entrada] CHECK CONSTRAINT [FK_Entrada_Producto]
+GO
+ALTER TABLE [dbo].[Entrada]  WITH CHECK ADD  CONSTRAINT [FK_Entrada_TipoEntrada] FOREIGN KEY([IdTipoEntrada])
+REFERENCES [dbo].[TipoEntrada] ([Id])
+GO
+ALTER TABLE [dbo].[Entrada] CHECK CONSTRAINT [FK_Entrada_TipoEntrada]
+GO
+ALTER TABLE [dbo].[Entrada]  WITH CHECK ADD  CONSTRAINT [FK_Entrada_TipoOrden] FOREIGN KEY([IdTipoOrden])
+REFERENCES [dbo].[TipoOrden] ([Id])
+GO
+ALTER TABLE [dbo].[Entrada] CHECK CONSTRAINT [FK_Entrada_TipoOrden]
+GO
+ALTER TABLE [dbo].[Extension]  WITH CHECK ADD  CONSTRAINT [FK_Extension_Predio] FOREIGN KEY([IdIca])
+REFERENCES [dbo].[Predio] ([IdICA])
+GO
+ALTER TABLE [dbo].[Extension] CHECK CONSTRAINT [FK_Extension_Predio]
+GO
+ALTER TABLE [dbo].[Extension]  WITH CHECK ADD  CONSTRAINT [FK_Extension_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([Id])
+GO
+ALTER TABLE [dbo].[Extension] CHECK CONSTRAINT [FK_Extension_Producto]
+GO
+ALTER TABLE [dbo].[Orden]  WITH CHECK ADD  CONSTRAINT [FK_Orden_DetalleOrden] FOREIGN KEY([IdDetalleOrden])
+REFERENCES [dbo].[DetalleOrden] ([Id])
+GO
+ALTER TABLE [dbo].[Orden] CHECK CONSTRAINT [FK_Orden_DetalleOrden]
+GO
+ALTER TABLE [dbo].[Orden]  WITH CHECK ADD  CONSTRAINT [FK_Orden_Extension] FOREIGN KEY([IdExtension])
+REFERENCES [dbo].[Extension] ([Id])
+GO
+ALTER TABLE [dbo].[Orden] CHECK CONSTRAINT [FK_Orden_Extension]
+GO
+ALTER TABLE [dbo].[Orden]  WITH CHECK ADD  CONSTRAINT [FK_Orden_Negociacion] FOREIGN KEY([IdNegociacion])
+REFERENCES [dbo].[Negociacion] ([Id])
+GO
+ALTER TABLE [dbo].[Orden] CHECK CONSTRAINT [FK_Orden_Negociacion]
+GO
+ALTER TABLE [dbo].[Orden]  WITH CHECK ADD  CONSTRAINT [FK_Orden_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([Id])
+GO
+ALTER TABLE [dbo].[Orden] CHECK CONSTRAINT [FK_Orden_Producto]
+GO
+ALTER TABLE [dbo].[Orden]  WITH CHECK ADD  CONSTRAINT [FK_Orden_TipoOrden] FOREIGN KEY([IdTipoOrden])
+REFERENCES [dbo].[TipoOrden] ([Id])
+GO
+ALTER TABLE [dbo].[Orden] CHECK CONSTRAINT [FK_Orden_TipoOrden]
+GO
+ALTER TABLE [dbo].[Producto]  WITH CHECK ADD  CONSTRAINT [FK_Producto_Predio] FOREIGN KEY([IdICA])
+REFERENCES [dbo].[Predio] ([IdICA])
+GO
+ALTER TABLE [dbo].[Producto] CHECK CONSTRAINT [FK_Producto_Predio]
+GO
+ALTER TABLE [dbo].[Producto]  WITH CHECK ADD  CONSTRAINT [FK_Producto_TipoNegociacion] FOREIGN KEY([IdTipoNegociacion])
+REFERENCES [dbo].[TipoNegociacion] ([Id])
+GO
+ALTER TABLE [dbo].[Producto] CHECK CONSTRAINT [FK_Producto_TipoNegociacion]
+GO
+ALTER TABLE [dbo].[Proveedor]  WITH CHECK ADD  CONSTRAINT [FK_Proveedor_Extension] FOREIGN KEY([IdExtension])
+REFERENCES [dbo].[Extension] ([Id])
+GO
+ALTER TABLE [dbo].[Proveedor] CHECK CONSTRAINT [FK_Proveedor_Extension]
+GO
+ALTER TABLE [dbo].[Proveedor]  WITH CHECK ADD  CONSTRAINT [FK_Proveedor_Producto] FOREIGN KEY([IdProducto])
+REFERENCES [dbo].[Producto] ([Id])
+GO
+ALTER TABLE [dbo].[Proveedor] CHECK CONSTRAINT [FK_Proveedor_Producto]
+GO
+ALTER TABLE [dbo].[Proveedor]  WITH CHECK ADD  CONSTRAINT [FK_Proveedor_TipoOrden] FOREIGN KEY([IdTipoOrden])
+REFERENCES [dbo].[TipoOrden] ([Id])
+GO
+ALTER TABLE [dbo].[Proveedor] CHECK CONSTRAINT [FK_Proveedor_TipoOrden]
+GO
+ALTER TABLE [dbo].[Reporte]  WITH CHECK ADD  CONSTRAINT [FK_Reporte_TipoNegociacion] FOREIGN KEY([IdTipoNegociacion])
+REFERENCES [dbo].[TipoNegociacion] ([Id])
+GO
+ALTER TABLE [dbo].[Reporte] CHECK CONSTRAINT [FK_Reporte_TipoNegociacion]
+GO
+ALTER TABLE [dbo].[Reporte]  WITH CHECK ADD  CONSTRAINT [FK_Reporte_TipoReporte] FOREIGN KEY([IdTipoReporte])
+REFERENCES [dbo].[TipoReporte] ([Id])
+GO
+ALTER TABLE [dbo].[Reporte] CHECK CONSTRAINT [FK_Reporte_TipoReporte]
+GO
+USE [master]
+GO
+ALTER DATABASE [NativaProduce] SET  READ_WRITE 
+GO
